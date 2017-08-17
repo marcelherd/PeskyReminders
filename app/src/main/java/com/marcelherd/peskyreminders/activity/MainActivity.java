@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        System.out.println("RESULT req " + requestCode + " res " + resultCode);
-
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 long id = data.getLongExtra("id", -1);

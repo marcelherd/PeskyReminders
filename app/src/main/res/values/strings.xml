@@ -5,5 +5,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_save">Save</string>
 
+    <string name="error_editText_empty">Must not be empty!</string>
+
     <string name="addReminder_hint">Remind me to...</string>
 </resources>
