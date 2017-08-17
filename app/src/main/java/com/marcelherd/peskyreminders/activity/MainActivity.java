@@ -1,9 +1,8 @@
-package com.marcelherd.peskyreminders;
+package com.marcelherd.peskyreminders.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,14 +11,20 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.marcelherd.peskyreminders.R;
 import com.marcelherd.peskyreminders.model.Reminder;
+import com.marcelherd.peskyreminders.service.ReminderService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ReminderService reminderService;
+
     private List<Reminder> reminders;
+
+    private ArrayAdapter<Reminder> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +34,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        reminders = new ArrayList<>();
-        final ListView listView = (ListView) findViewById(R.id.main_list_reminders);
-        final ArrayAdapter<Reminder> arrayAdapter = new ArrayAdapter<Reminder>(this, android.R.layout.simple_list_item_1, reminders);
-        listView.setAdapter(arrayAdapter);
+        reminderService = new ReminderService(this);
+        reminders = reminderService.all();
 
-        arrayAdapter.add(new Reminder("Eat all the food!!!!"));
+        ListView listView = (ListView) findViewById(R.id.main_list_reminders);
+        arrayAdapter = new ArrayAdapter<Reminder>(this, android.R.layout.simple_list_item_1, reminders);
+        listView.setAdapter(arrayAdapter);
     }
 
     @Override
@@ -59,9 +64,24 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        System.out.println("RESULT req " + requestCode + " res " + resultCode);
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                long id = data.getLongExtra("id", -1);
+                Reminder newReminder = reminderService.one(id);
+                arrayAdapter.add(newReminder);
+            }
+        }
+    }
+
     public void addReminder(View view) {
         Intent intent = new Intent(this, AddReminderActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
 }

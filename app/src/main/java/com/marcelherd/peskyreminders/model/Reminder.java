@@ -2,11 +2,12 @@ package com.marcelherd.peskyreminders.model;
 
 public class Reminder {
 
+    private Long _id;
     private boolean active;
     private String text;
 
-    public Reminder() { }
-    public Reminder(String text) { this.text = text; }
+    public Reminder() { this.active = true; }
+    public Reminder(String text) { this.text = text; this.active = true; }
 
     private boolean isActive() { return this.active; }
     private void setActive(boolean active) { this.active = active; }

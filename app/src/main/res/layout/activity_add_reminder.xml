@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.marcelherd.peskyreminders.AddReminderActivity">
+    tools:context="com.marcelherd.peskyreminders.activity.AddReminderActivity">
 
 
     <EditText
