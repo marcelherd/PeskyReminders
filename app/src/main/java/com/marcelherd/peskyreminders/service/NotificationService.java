@@ -29,7 +29,7 @@ public class NotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
 
-        List<Reminder> reminders = reminderRepository.all();
+        List<Reminder> reminders = reminderRepository.active();
 
         for (Reminder reminder : reminders) {
             NotificatonUtil.create(this, reminder);

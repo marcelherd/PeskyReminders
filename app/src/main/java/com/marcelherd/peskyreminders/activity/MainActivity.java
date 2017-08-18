@@ -1,8 +1,6 @@
 package com.marcelherd.peskyreminders.activity;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,20 +14,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.marcelherd.peskyreminders.R;
+import com.marcelherd.peskyreminders.adapter.RemindersListAdapter;
 import com.marcelherd.peskyreminders.model.Reminder;
 import com.marcelherd.peskyreminders.persistence.ReminderRepository;
-import com.marcelherd.peskyreminders.service.NotificationService;
 import com.marcelherd.peskyreminders.util.NotificatonUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private ReminderRepository reminderRepository;
 
-    private List<Reminder> reminders;
+    private ArrayList<Reminder> reminders;
 
-    private ArrayAdapter<Reminder> arrayAdapter;
+    private RemindersListAdapter remindersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +39,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         reminderRepository = new ReminderRepository(this);
-        reminders = reminderRepository.all();
+        reminders = new ArrayList<Reminder>(reminderRepository.all());
 
         ListView listView = (ListView) findViewById(R.id.main_list_reminders);
-        arrayAdapter = new ArrayAdapter<Reminder>(this, android.R.layout.simple_list_item_1, reminders);
-        listView.setAdapter(arrayAdapter);
+        remindersAdapter = new RemindersListAdapter(this, reminders);
+        listView.setAdapter(remindersAdapter);
         registerForContextMenu(listView);
-
-        Intent serviceintent = new Intent(this, NotificationService.class);
-        startService(serviceintent);
     }
 
     @Override
@@ -72,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         Reminder reminder = reminders.get(info.position);
 
         if (reminderRepository.delete(reminder)) {
-            arrayAdapter.remove(reminder);
+            remindersAdapter.remove(reminder);
             NotificatonUtil.cancel(this, reminder.getId());
             return true;
         }
@@ -101,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 long id = data.getLongExtra("id", -1);
                 Reminder newReminder = reminderRepository.one(id);
-                arrayAdapter.add(newReminder);
+                remindersAdapter.add(newReminder);
             }
         }
     }

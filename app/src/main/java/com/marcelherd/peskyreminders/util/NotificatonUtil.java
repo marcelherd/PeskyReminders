@@ -18,6 +18,15 @@ public class NotificatonUtil {
         notificationManager.cancel(notificationId);
     }
 
+    public static void cancel(Context context, Reminder reminder) {
+        cancel(context, reminder.getId());
+    }
+
+    public static void cancelAll(Context context) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+    }
+
     public static void create(Context context, Reminder reminder) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
         PendingIntent notificationIntent = PendingIntent.getActivity(context, reminder.getId(), new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
