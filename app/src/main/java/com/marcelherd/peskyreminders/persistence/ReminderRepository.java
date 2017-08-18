@@ -1,4 +1,4 @@
-package com.marcelherd.peskyreminders.service;
+package com.marcelherd.peskyreminders.persistence;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,17 +10,22 @@ import java.util.List;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
-public class ReminderService {
+public class ReminderRepository {
 
     private DatabaseHelper databaseHelper;
 
-    public ReminderService(Context context) {
+    public ReminderRepository(Context context) {
         this.databaseHelper = new DatabaseHelper(context);
     }
 
     public List<Reminder> all() {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         return cupboard().withDatabase(db).query(Reminder.class).list();
+    }
+
+    public List<Reminder> active() {
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        return cupboard().withDatabase(db).query(Reminder.class).withSelection("active = ?", "true").list();
     }
 
     public Reminder one(Long id) {

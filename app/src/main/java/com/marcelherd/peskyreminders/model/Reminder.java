@@ -9,8 +9,9 @@ public class Reminder {
     public Reminder() { this.active = true; }
     public Reminder(String text) { this.text = text; this.active = true; }
 
-    private boolean isActive() { return this.active; }
-    private void setActive(boolean active) { this.active = active; }
+    public int getId() { return this._id.intValue(); }
+    public boolean isActive() { return this.active; }
+    public void setActive(boolean active) { this.active = active; }
     public String getText() { return this.text; }
     public void setText(String text) { this.text = text; }
 

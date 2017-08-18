@@ -2,27 +2,25 @@ package com.marcelherd.peskyreminders.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.marcelherd.peskyreminders.R;
 import com.marcelherd.peskyreminders.model.Reminder;
-import com.marcelherd.peskyreminders.service.ReminderService;
+import com.marcelherd.peskyreminders.persistence.ReminderRepository;
+import com.marcelherd.peskyreminders.util.NotificatonUtil;
 
 public class AddReminderActivity extends AppCompatActivity {
 
-    private ReminderService reminderService;
+    private ReminderRepository reminderRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reminder);
-        reminderService = new ReminderService(this);
+        reminderRepository = new ReminderRepository(this);
     }
 
     public void cancel(View view) {
@@ -40,7 +38,8 @@ public class AddReminderActivity extends AppCompatActivity {
         } else {
             Reminder reminder = new Reminder(text);
 
-            long retval = reminderService.createOrUpdate(reminder);
+            long retval = reminderRepository.createOrUpdate(reminder);
+            NotificatonUtil.create(this, reminder);
 
             Intent returnIntent = new Intent();
             returnIntent.putExtra("id", retval);
