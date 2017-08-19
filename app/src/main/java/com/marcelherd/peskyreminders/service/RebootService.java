@@ -28,9 +28,7 @@ public class RebootService extends IntentService {
 
         if (intentType.equals("RebootReceiver")) {
             List<Reminder> reminders = reminderRepository.active();
-            for (Reminder reminder : reminders) {
-                NotificatonUtil.create(this, reminder);
-            }
+            NotificatonUtil.createAll(this, reminders);
         }
     }
 

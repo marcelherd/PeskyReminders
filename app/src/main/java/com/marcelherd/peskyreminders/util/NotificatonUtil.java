@@ -11,6 +11,8 @@ import com.marcelherd.peskyreminders.R;
 import com.marcelherd.peskyreminders.activity.MainActivity;
 import com.marcelherd.peskyreminders.model.Reminder;
 
+import java.util.List;
+
 public class NotificatonUtil {
 
     public static void cancel(Context context, int notificationId) {
@@ -37,6 +39,12 @@ public class NotificatonUtil {
                 .setOngoing(true)
                 .build();
         notificationManager.notify(reminder.getId(), notification);
+    }
+
+    public static void createAll(Context context, List<Reminder> reminders) {
+        for (Reminder reminder : reminders) {
+            create(context, reminder);
+        }
     }
 
 }

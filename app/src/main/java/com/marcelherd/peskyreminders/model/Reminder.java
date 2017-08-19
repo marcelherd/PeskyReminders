@@ -15,8 +15,6 @@ public class Reminder {
     public String getText() { return this.text; }
     public void setText(String text) { this.text = text; }
 
-    public void toggle() { this.active = !this.active; }
-
     public String toString() {
         return text;
     }

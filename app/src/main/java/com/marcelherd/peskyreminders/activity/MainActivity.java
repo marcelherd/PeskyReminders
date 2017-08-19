@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         remindersAdapter = new RemindersListAdapter(this, reminders);
         listView.setAdapter(remindersAdapter);
         registerForContextMenu(listView);
+
+        NotificatonUtil.createAll(this, reminderRepository.active());
     }
 
     @Override
