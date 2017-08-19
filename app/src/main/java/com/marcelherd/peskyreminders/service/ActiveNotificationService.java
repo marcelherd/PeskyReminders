@@ -9,12 +9,15 @@ import com.marcelherd.peskyreminders.util.NotificatonUtil;
 
 import java.util.List;
 
-public class RebootService extends IntentService {
+/**
+ * Creates notifications for each active reminder.
+ */
+public class ActiveNotificationService extends IntentService {
 
     private ReminderRepository reminderRepository;
 
-    public RebootService() {
-        super("RebootService");
+    public ActiveNotificationService() {
+        super("ActiveNotificationService");
         this.reminderRepository = new ReminderRepository(this);
     }
 

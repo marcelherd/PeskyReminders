@@ -10,17 +10,16 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.marcelherd.peskyreminders.R;
 import com.marcelherd.peskyreminders.adapter.RemindersListAdapter;
 import com.marcelherd.peskyreminders.model.Reminder;
 import com.marcelherd.peskyreminders.persistence.ReminderRepository;
+import com.marcelherd.peskyreminders.receiver.RebootReceiver;
 import com.marcelherd.peskyreminders.util.NotificatonUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         registerForContextMenu(listView);
 
         NotificatonUtil.createAll(this, reminderRepository.active());
+        RebootReceiver.scheduleRefreshReminders(this);
     }
 
     @Override
