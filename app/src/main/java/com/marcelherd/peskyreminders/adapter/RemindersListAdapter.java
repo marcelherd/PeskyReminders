@@ -25,6 +25,7 @@ public class RemindersListAdapter extends ArrayAdapter<Reminder> {
         reminderRepository = new ReminderRepository(context);
     }
 
+    // TODO: switch to ViewHolder pattern for improved performance: https://goo.gl/fjP2YT
     @Override
     public View getView(int position, View convertView, final ViewGroup parent) {
         final Reminder reminder = getItem(position);

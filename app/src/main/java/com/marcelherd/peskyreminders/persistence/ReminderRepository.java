@@ -36,7 +36,7 @@ public class ReminderRepository {
      */
     public List<Reminder> active() {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        return cupboard().withDatabase(db).query(Reminder.class).withSelection("active = ?", "true").list();
+        return cupboard().withDatabase(db).query(Reminder.class).withSelection("active = ?", "1").list();
     }
 
     /**
